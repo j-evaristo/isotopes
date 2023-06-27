@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    
+<div>
+    <label for="slope1">Slope1: </label>
+    <input type="range" min="1" max="15" value="7.45" class="slider" id="slope1" step="0.1" oninput="updatePlot()">
+    <output id="slope1Value">7.45</output><br>
+    <label for="intercept1">Intercept1: </label>
+    <input type="range" min="-10" max="10" value="2.12" class="slider" id="intercept1" step="0.1" oninput="updatePlot()">
+    <output id="intercept1Value">2.12</output><br>
+    <label for="slope2">Slope2: </label>
+    <input type="range" min="3" max="6" value="3.23" class="slider" id="slope2" step="0.1" oninput="updatePlot()">
+    <output id="slope2Value">3.23</output><br>
+</div>
+
+<div id="myDiv" style="width: 500px; height: 500px;"></div>
+
+<script>
+function updatePlot() {
+    var slope1 = parseFloat(document.getElementById("slope1").value);
+    var intercept1 = parseFloat(document.getElementById("intercept1").value);
+    var slope2 = parseFloat(document.getElementById("slope2").value);
+
+    // Update slider value displays
+    document.getElementById("slope1Value").value = slope1;
+    document.getElementById("intercept1Value").value = intercept1;
+    document.getElementById("slope2Value").value = slope2;
+
+    var x = -6.72323;
+    var y = -58.9629;
+
+    var intercept2 = y - slope2 * x;
+    var x_intersect = (intercept2 - intercept1) / (slope1 - slope2);
+    var y_intersect = slope1 * x_intersect + intercept1;
+
+    var x_vals = [];
+    var y_vals1 = [];
+    var y_vals2 = [];
+    for(var i=-20; i<=0; i+=0.1) {
+        x_vals.push(i);
+        y_vals1.push(slope1 * i + intercept1);
+        y_vals2.push(slope2 * i + intercept2);
+    }
+
+    var data = [
+        {x: x_vals, y: y_vals1, mode: 'lines', name: 'LMWL'},
+        {x: x_vals, y: y_vals2, mode: 'lines', name: 'Evaporation Line'},
+        {x: [x], y: [y], mode: 'markers', marker: {color: 'black', symbol: 'circle'}, name: 'Soil Water'},
+        {x: [x_intersect], y: [y_intersect], mode: 'markers', marker: {symbol: 'star'}, name: 'Intersection'},
+    ];
+
+    var layout = {
+        xaxis: {
+            range: [-20, 0],
+            title: '\u03B4<sup>18</sup>O' // unicode for delta symbol
+        },
+        yaxis: {
+            range: [Math.min(...y_vals1), Math.max(...y_vals1)],
+            title: '\u03B4D'
+        }
+    };
+
+    Plotly.newPlot('myDiv', data, layout);
+}
+
+updatePlot(); // initial plot
+</script>
+
+</body>
+</html>
