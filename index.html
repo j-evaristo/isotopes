@@ -17,7 +17,7 @@
     <output id="slope2Value">3.23</output><br>
 </div>
 
-<div id="myDiv" style="width: 1000px; height: 1000px;"></div>
+<div id="myDiv" style="width: 800px; height: 600px;"></div>
 
 <script>
 function updatePlot() {
@@ -49,8 +49,8 @@ function updatePlot() {
     var data = [
         {x: x_vals, y: y_vals1, mode: 'lines', name: 'MWL'},
         {x: x_vals, y: y_vals2, mode: 'lines', name: 'Evaporation Line'},
-        {x: [x], y: [y], mode: 'markers', marker: {color: 'black', symbol: 'circle'}, name: 'Soil Water'},
-        {x: [x_intersect], y: [y_intersect], mode: 'markers', marker: {symbol: 'star'}, name: 'Intersection'},
+        {x: [x], y: [y], mode: 'markers', marker: {color: 'gray', symbol: 'circle',size: 15}, name: 'Soil Water'},
+        {x: [x_intersect], y: [y_intersect], mode: 'markers', marker: {color: 'red', symbol: 'star',size: 15}, name: 'Source Water'},
     ];
 
     var layout = {
